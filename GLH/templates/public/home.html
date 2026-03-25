@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Greenfield Local Hub — Home{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/public/home.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="hero">
+        <nav class="top-nav">
+            <a href="{{ url_for('privacy') }}">Privacy Policy</a>
+        </nav>
+        <div class="hero-content">
+            <h1 class="site-title">
+                Greenfield<br>
+                <span class="site-title shift-right">Local Hub</span>
+            </h1>
+        <h2 class="site-slogan">Nature's Best</h2>
+
+        <div class="button-row">
+            <a href="{{ url_for('auth.register') }}" class="btn beige">Register Now</a>
+        </div>
+
+        <div class="button-group">
+            <a href="{{ url_for('about_us') }}" class="btn black">About us</a>
+            <a href="{{ url_for('auth.login') }}" class="btn green">Sign in</a>
+        </div>
+            <a href="{{ url_for('public.our_products') }}" class="btn white">Our Products</a>
+
+        </div>
+    </div>
+{% endblock %}

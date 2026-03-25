@@ -1,23 +1,22 @@
 from datetime import datetime, timezone
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-from sqlalchemy import Enum as SAEnum
-from sqlalchemy import UniqueConstraint
+from sqlalchemy import Enum as SAEnum, Numeric
 from enum import Enum
 from extensions import db
 
+# Utility for UTC timestamps
 UTC_NOW = lambda: datetime.now(timezone.utc)
 
 # ---------- Enums ----------
-
-class role(Enum):
+class Role(Enum):
     Customer = "customer"
     Admin    = "admin"
     Producer = "producer"
 
-class order_type(Enum):
+class OrderType(Enum):
     Collection = "collection"
-    Delivery   = "Delivery"
+    Delivery   = "delivery"
 
 class Status(Enum):
     Pending   = "Pending"
@@ -25,19 +24,17 @@ class Status(Enum):
     Completed = "Completed"
     Cancelled = "Cancelled"
 
-class producers(Enum):
-    bale_farm         = "bale_farm"
-    ketil_farm        = "ketil_farm"
-    featherdown_farm  =  "featherdown farm"
-    yang_farm         = "yang farm"
-
-    
+class Producers(Enum):
+    bale_farm        = "bale_farm"
+    ketil_farm       = "ketil_farm"
+    featherdown_farm = "featherdown_farm"
+    yang_farm        = "yang_farm"
 
 # ---------- Models ----------
 class User(db.Model, UserMixin):
     __tablename__ = "users"
     user_id       = db.Column(db.Integer, primary_key=True)
-    role          = db.Column(db.String(16), nullable=False)  # "Customer" | "Admin"
+    role          = db.Column(SAEnum(Role), nullable=False)
     email         = db.Column(db.String(120), unique=True, index=True, nullable=False)
     phone_number  = db.Column(db.String(20), unique=True, index=True, nullable=False)
     password_hash = db.Column(db.Text, nullable=False)
@@ -46,7 +43,7 @@ class User(db.Model, UserMixin):
     created_at    = db.Column(db.DateTime, nullable=False, default=UTC_NOW)
     last_login    = db.Column(db.DateTime)
 
-    orders      = db.relationship("orders", back_populates="user", cascade="all, delete-orphan", lazy="dynamic")
+    orders = db.relationship("Orders", back_populates="user", cascade="all, delete-orphan", lazy="dynamic")
 
     def get_id(self):
         return str(self.user_id)
@@ -57,38 +54,37 @@ class User(db.Model, UserMixin):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+class Product(db.Model):
+    __tablename__ = "products"
+    product_id    = db.Column(db.Integer, primary_key=True)
+    name          = db.Column(db.String(120), nullable=False)
+    description   = db.Column(db.Text)
+    price         = db.Column(Numeric(10, 2), nullable=False)
+    stock         = db.Column(db.Integer, nullable=False, default=0)
+    producer      = db.Column(SAEnum(Producers), nullable=False)
+    created_at    = db.Column(db.DateTime, default=UTC_NOW)
 
+    order_items = db.relationship("OrderItem", back_populates="product", cascade="all, delete-orphan")
 
 class Orders(db.Model):
-    __tablename__  = "Orders"
-    id             = db.Column(db.Integer, primary_key=True)
-    Order_id       = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False)
-    order_type     = db.Column(SAEnum(order_type), nullable=False)
-    status         = db.Column(SAEnum(Status), nullable=False, default=Status.Available)
-    order_date     = db.Column(db.DateTime, nullable=False)
-    ordered_at     = db.Column(db.DateTime, default=UTC_NOW, nullable=False)
-    total_price    = db.Column(db.Integer, nullable=True)  # or Numeric(10,2)
+    __tablename__  = "orders"
+    order_id       = db.Column(db.Integer, primary_key=True)
+    user_id        = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False)
+    order_type     = db.Column(SAEnum(OrderType), nullable=False)
+    status         = db.Column(SAEnum(Status), default=Status.Pending, nullable=False)
+    order_date     = db.Column(db.DateTime, default=UTC_NOW)
+    dc_date  = db.Column(db.DateTime)
+    delivery_addr  = db.Column(db.String(255))
 
+    user  = db.relationship("User", back_populates="orders")
+    items = db.relationship("OrderItem", back_populates="order", cascade="all, delete-orphan")
 
-    user = db.relationship("user", back_populates="orders", lazy="joined")
-    order_items      = db.relationship("order_items", back_populates="orders", cascade="all, delete-orphan", lazy="dynamic")
+class OrderItem(db.Model):
+    __tablename__ = "order_items"
+    id            = db.Column(db.Integer, primary_key=True)
+    order_id      = db.Column(db.Integer, db.ForeignKey("orders.order_id"), nullable=False)
+    product_id    = db.Column(db.Integer, db.ForeignKey("products.product_id"), nullable=False)
+    quantity      = db.Column(db.Integer, nullable=False, default=1)
 
-
-class Order_items (db.Model):
-    __tablename__= "Order items"
-    OrderItem_id = db.Column(db.Integer, primary_key=True)
-    Order_id     =  db.Column(db.Integer, db.ForeignKey("Orders.Order_id"), nullable=False)
-    quantity     = db.Column(db.Integer, nullable=False)
-    unit_price   = db.Column(db.Integer, nullable=False) 
-
-    Orders = db.relationship("Orders", back_populates="Order_items ", lazy="joined")
-   
-class Farmers_Market(db.Model):
-    __tablename__ = "farmers_market"
-    produce_id    = db.Column(db.Integer, primary_key=True)
-    product_name  = db.Column(db.String(120), nullable=False)
-    user_id       = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False)
-    product       = db.Column(db.String(120), nullable=False)
-    price         = db.Column(db.Integer, nullable=False)
-    source        = db.Column(SAEnum(producers))
-    stock         = db.Column(db.Integer, nullable=False)
+    order   = db.relationship("Orders", back_populates="items")
+    product = db.relationship("Product", back_populates="order_items")
