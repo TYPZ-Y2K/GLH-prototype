@@ -5,6 +5,7 @@ import os
 class Config:
     SECRET_KEY = os.getenv("SECRET_KEY","devsecret")
     ADMIN_CODE = os.getenv("ADMIN_CODE", "12345678")  # store as STRING
+    PRODUCER_CODE = os.getenv("ADMIN_CODE", "87654321")  # store as STRING
     BASE_DIR = os.path.abspath(os.path.dirname(__file__))
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL",
     f"sqlite:///{os.path.join(BASE_DIR, 'app.db')}")

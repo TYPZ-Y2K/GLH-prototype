@@ -4,7 +4,7 @@ from flask_login import login_user, current_user, login_required, logout_user
 from sqlalchemy.exc import IntegrityError
 from email_validator import validate_email, EmailNotValidError
 from .forms import RegisterForm, LoginForm, ProfileForm, ChangePasswordForm, DeleteAccountForm
-from models import User
+from models import User, Role
 from extensions import db, limiter
 from . import auth_bp as bp  #  Blueprint created in auth/__init__.py;  its name is "auth"
 
@@ -26,7 +26,7 @@ def register():
         pw        = form.password.data
         phone_number = form.phone_number.data
         dob       = form.dob.data      # if your form field is named dob
-        admin_code_entered = form.admin_code.data.strip()
+        staff_code_entered = form.staff_code.data.strip()
     
 
         # Normalize + validate email
@@ -43,10 +43,13 @@ def register():
         
         # Determine role based on admin code
         expected_admin_code = current_app.config.get("ADMIN_CODE")
-        if admin_code_entered == expected_admin_code:
-            role = "Admin"
+        expected_producer_code = current_app.config.get("PRODUCER_CODE")
+        if staff_code_entered == expected_admin_code:
+            role = Role.Admin
+        elif staff_code_entered == expected_producer_code:
+            role = Role.Producer
         else:
-            role = "Customer"
+            role = Role.Customer
 
         # Create user (match model fields exactly)
         user = User(
@@ -121,11 +124,11 @@ def profile():
     if request.method == "POST" and "delete_submit" in request.form and delete_form.validate_on_submit():
         if not current_user.check_password(delete_form.password.data):
             flash("Password is incorrect.", "error")
-            return redirect(url_for("Auth.profile"))
+            return redirect(url_for("auth.profile"))
 
         if not delete_form.confirm.data:
             flash("Please confirm deletion before proceeding.", "error")
-            return redirect(url_for("Auth.profile"))
+            return redirect(url_for("auth.profile"))
 
         try:
             db.session.delete(current_user)
@@ -178,7 +181,7 @@ def profile():
 
     if form.errors:
         print("PROFILE ERRORS:", form.errors)
-    return render_template("profile.html", form=form, delete_form=delete_form)
+    return render_template("auth/profile.html", form=form, delete_form=delete_form)
 
 # ───────── Change password ─────────
 @bp.route("/account/password", methods=["GET","POST"])

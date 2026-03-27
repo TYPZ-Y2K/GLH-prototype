@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{%block title %} Greenfield Local Hub — customer dashboard {% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for ('static', filename='customer/customer_dahsboard.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="hero">
+        <div class="yellow-header">
+             <div class="left-side">
+                <h1>Greenfield Local Hub</h1>
+            </div>
+            <nav class="top-nav">
+                <a clas="active" href="{{ url_for('customer.customer_dashboard') }}">Dashboard</a>
+                <a href="{{ url_for('auth.logout') }}">Logout</a>
+                <a href="{{ url_for('public.privacy') }}">Privacy</a>
+                <a href="{{ url_for('customer.Farmers_Market') }}">Farmers Market</a>
+            </nav>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div>
+            <a href="{{ url_for('auth.profile') }}">profile</a>
+            <a href="{{ url_for('auth.change_password') }}">change password</a>
+        </div>
+</div>
+{% endblock %}

@@ -14,8 +14,8 @@
             <nav class="top-nav">
                 <a href="{{ url_for('home') }}">Home</a>
                 <a href="{{ url_for('auth.register') }}" class="active">Register</a>
-                <a href="{{ url_for('auth.login') }}">Home</a>
-                <a href="{{ url_for('public.about_us') }}">Home</a>
+                <a href="{{ url_for('auth.login') }}">Login</a>
+                <a href="{{ url_for('public.about_us') }}">About us</a>
             </nav>
         </div>  
 
@@ -58,17 +58,19 @@
                 </div>
 
                 <div class="form-row">
-                    {{ form.admin_code(id="Admin_Code", autocomplete="Admin_Code") }}
-                    {% for err in form.admin_code.errors %}<p class="error">{{ err }}</p> {% endfor %} 
+                    {{ form.staff_code(id="Staff_Code", autocomplete="Staff_Code") }}
+                    {% for err in form.staff_code.errors %}<p class="error">{{ err }}</p> {% endfor %} 
                 </div>
 
                 <div class="form-actions">
                     {{ form.submit(class="btn-olive") }}
                     <a class="link" href="{{ url_for('auth.login') }}">Have an account already?</a>
                 </div>
+                
+                <script src="{{ url_for('s tatic', filename='js/auth/register.js') }}" defer></script>
             </form>
 
-            <script src="{{ url_for('static', filename='js/auth/register.js') }}" defer></script>
+           
         </div>
     </div>
 {% endblock %}

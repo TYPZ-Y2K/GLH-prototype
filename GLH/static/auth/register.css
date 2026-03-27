@@ -1,0 +1,37 @@
+.flash{
+    list-style:none;
+    padding-left:0;
+    margin:1rem 0;
+    animation: fadeIn 1.5s ease-in forwards;
+} /* flash list styling */
+
+.flash-container {
+    position: fixed;
+    top: 80px; right: 20px;
+    max-width: min(360px, 92vw); 
+    background: #94714b; color: #fff; border-radius: 15px; border: 1px solid #D9BB9B;
+    z-index: 9999;
+    animation: fadeIn 1.5s ease-in forwards;
+}
+
+.flash li{
+    padding:5px 5px;
+    margin:4px;
+    border-radius: 15px;
+} /* flash item card */
+
+.flash-message {
+    
+    border-radius: 6px;
+    color: #fff;
+    font-size: 16px;
+    text-align: center;
+}
+
+.flash .error{background:rgba(253, 3, 3, 0.486);
+    border:1px solid #d00
+} /* error flash */
+
+.flash .success{background:rgba(113, 240, 151, 0.603);
+    border:1px solid #0a0
+} /* success flash */

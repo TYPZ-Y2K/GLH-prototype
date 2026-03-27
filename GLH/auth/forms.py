@@ -33,10 +33,10 @@ def normalize_name(name: str) -> str:
     return " ".join(part.capitalize() for part in (name or "").split())
 
 
-def validate_admin_code(self, field):
-        expected = current_app.config.get("ADMIN_CODE")
+def validate_staff_code(self, field):
+        expected = current_app.config.get("ADMIN_CODE") or current_app.config.get("PRODUCER_CODE")
         if field.data != expected:
-            raise ValidationError("Invalid admin code.")
+            raise ValidationError("Invalid staff code.")
 
 def validate_dob(form, field):
     dob = field.data
@@ -79,10 +79,10 @@ class RegisterForm(FlaskForm):
     # HTML date inputs send YYYY-MM-DD; DateField parses to a date object.
     dob = DateField("Date of birth", render_kw={"placeholder": "dd / mm / yyyy", "type": "date"}, format="%Y-%m-%d", validators=[DataRequired(), validate_dob])
 
-    admin_code = StringField(
-        "Admin Code",
-        render_kw={"placeholder": "Admin Code"},
-        validators=[optional()] + [validate_admin_code]
+    staff_code = StringField(
+        "Staff Code",
+        render_kw={"placeholder": "Staff Code"},
+        validators=[optional()] + [validate_staff_code]
     )
 
     submit = SubmitField("Begin My Journey")
