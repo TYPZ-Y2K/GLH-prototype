@@ -6,7 +6,7 @@ from email_validator import validate_email, EmailNotValidError
 from .forms import RegisterForm, LoginForm, ProfileForm, ChangePasswordForm, DeleteAccountForm
 from models import User
 from extensions import db, limiter
-from . import bp  #  Blueprint created in auth/__init__.py;  its name is "auth"
+from . import auth_bp as bp  #  Blueprint created in auth/__init__.py;  its name is "auth"
 
 
 

@@ -1,12 +1,8 @@
 from datetime import datetime, timezone
 from flask import current_app,request, render_template, redirect, url_for, flash, session, make_response
 from flask_login import login_user, current_user, login_required, logout_user
-from . import bp  #  Blueprint created in public/__init__.py;  its name is "public"
+from . import public_bp as bp  #  Blueprint created in public/__init__.py;  its name is "public"
 
-
-@bp.route("/")
-def home():
-    return render_template("public/home.html")
 
 @bp.route("/about us")
 def about_us():

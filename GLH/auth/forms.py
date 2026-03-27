@@ -85,14 +85,14 @@ class RegisterForm(FlaskForm):
         validators=[optional()] + [validate_admin_code]
     )
 
-    submit = SubmitField("Begin My Eco Journey")
+    submit = SubmitField("Begin My Journey")
 
 
 class LoginForm(FlaskForm):
     email = StringField("Email", render_kw={"placeholder": "Email"}, validators=[DataRequired(), Email()])
     password = PasswordField("Password", render_kw={"placeholder": "Password"}, validators=[DataRequired()])
     remember = BooleanField("Remember me")
-    submit = SubmitField("Continue My Eco Journey")
+    submit = SubmitField("Continue My Journey")
 
 
 class ProfileForm(FlaskForm):

@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %} Greenfield Local Hub — Register {% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='/auth/register.css') }}">
+{% endblock %}
+
+{%block content%}
+    <div class="hero">
+        <div class="yellow-header">
+            <div class="left-side">
+                <h1>Greenfield Local Hub</h1>
+            </div>
+            <nav class="top-nav">
+                <a href="{{ url_for('home') }}">Home</a>
+                <a href="{{ url_for('auth.register') }}" class="active">Register</a>
+                <a href="{{ url_for('auth.login') }}">Home</a>
+                <a href="{{ url_for('public.about_us') }}">Home</a>
+            </nav>
+        </div>  
+
+        <div class="register-card">
+
+            <form id="register-form" method="POST" action="{{ url_for('auth.register') }}" novalidate>
+                {{ form.hidden_tag() }}
+
+                <h1>Register</h1>
+
+                <div class="form-row">
+                    {{ form.full_name(id="full_name", autocomplete="name") }}
+                    {% for err in form.full_name.errors %}<p class="error"> {{ err }}</p> {% endfor %}
+                </div>
+
+                <div class="form-row">
+                    {{ form.email(id="email", autocomplete="email", inputmode="email") }}
+                    {% for err in form.email.errors %}<p class="error">{{ err }}</p> {% endfor %} 
+                </div>
+
+                <div class="form-row">
+                    {{ form.phone_number(id="phone_number", autocomplete="phone_number", inputmode="phone_number") }}
+                    {% for err in form.dob.errors %}<p class="error">{{ err }}</p> {% endfor %} 
+                </div>
+
+                <div class="form-row">
+                    {{ form.dob.label}}
+                    {{ form.dob(id="dob", autocomplete="dob") }}
+                    {% for err in form.dob.errors %}<p class="error">{{ err }}</p> {% endfor %} 
+                </div>
+                
+                <div class="form-row">
+                    {{ form.password(id="password", autocomplete="password") }}
+                    {% for err in form.dob.errors %}<p class="error">{{ err }}</p> {% endfor %} 
+                </div>
+                
+                <div class="form-row">
+                    {{ form.confirm(id="confirm_password", autocomplete="new-password") }}
+                    {% for err in form.dob.errors %}<p class="error">{{ err }}</p> {% endfor %} 
+                </div>
+
+                <div class="form-row">
+                    {{ form.admin_code(id="Admin_Code", autocomplete="Admin_Code") }}
+                    {% for err in form.admin_code.errors %}<p class="error">{{ err }}</p> {% endfor %} 
+                </div>
+
+                <div class="form-actions">
+                    {{ form.submit(class="btn-olive") }}
+                    <a class="link" href="{{ url_for('auth.login') }}">Have an account already?</a>
+                </div>
+            </form>
+
+            <script src="{{ url_for('static', filename='js/auth/register.js') }}" defer></script>
+        </div>
+    </div>
+{% endblock %}
