@@ -1,0 +1,263 @@
+.hero {
+    min-height: 100vh;
+    width: 100%;
+    background: #f5f5f0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── Yellow header bar (shared pattern) ── */
+.yellow-header {
+    background: #FFCE1B;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 30px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.yellow-header .left-side h1 {
+    margin: 0;
+    font-size: 22px;
+    color: #222;
+    font-weight: 700;
+}
+
+.top-nav {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+}
+
+.top-nav a {
+    color: #222;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 15px;
+    transition: color 0.2s;
+}
+
+.top-nav a:hover,
+.top-nav a.active {
+    color: #30673F;
+}
+
+/* ── Market body ── */
+.market-body {
+    flex: 1;
+    padding: 32px 40px 60px;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.market-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+}
+
+.market-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #222;
+    margin: 0 0 6px;
+}
+
+.market-subtitle {
+    font-size: 15px;
+    color: #666;
+    margin: 0;
+    max-width: 520px;
+}
+
+/* Basket button */
+.btn-basket {
+    display: inline-block;
+    background: #30673F;
+    color: #fff;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+
+.btn-basket:hover {
+    background: #245230;
+}
+
+/* ── Product grid ── */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 24px;
+}
+
+/* ── Product card ── */
+.product-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Placeholder image area */
+.product-img {
+    height: 160px;
+    background: linear-gradient(135deg, #30673F 0%, #4a8f5c 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-initial {
+    font-size: 56px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.7);
+    user-select: none;
+}
+
+/* Product info */
+.product-info {
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+}
+
+.product-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #222;
+    margin: 0;
+}
+
+.product-desc {
+    font-size: 13px;
+    color: #888;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.product-source {
+    font-size: 13px;
+    color: #30673F;
+    font-weight: 600;
+    margin: 0;
+}
+
+.product-bottom {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-top: 8px;
+}
+
+.product-price {
+    font-size: 20px;
+    font-weight: 700;
+    color: #222;
+}
+
+.product-stock {
+    font-size: 12px;
+    color: #999;
+    font-weight: 500;
+}
+
+/* Add to basket button */
+.btn-add {
+    margin-top: 12px;
+    width: 100%;
+    background: #FFCE1B;
+    color: #222;
+    border: none;
+    padding: 11px 0;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-add:hover {
+    background: #e6b800;
+}
+
+/* Empty state */
+.empty-state {
+    background: #fff;
+    border-radius: 12px;
+    padding: 48px;
+    text-align: center;
+    color: #888;
+    font-size: 16px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .yellow-header {
+        flex-direction: column;
+        gap: 10px;
+        padding: 12px 16px;
+    }
+
+    .top-nav {
+        gap: 14px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .market-body {
+        padding: 20px 16px 40px;
+    }
+
+    .market-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 14px;
+    }
+
+    .product-img {
+        height: 120px;
+    }
+}
+
+@media (max-width: 480px) {
+    .product-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .product-info {
+        padding: 12px;
+    }
+
+    .product-name {
+        font-size: 15px;
+    }
+
+    .product-price {
+        font-size: 17px;
+    }
+}

@@ -1,0 +1,323 @@
+/* Hero / page wrapper */
+.hero {
+    min-height: 100vh;
+    width: 100%;
+    background-image: url("/static/images/kyle-nieber-eE-ffApg7oI-unsplash.jpg");
+    display: flex;
+    flex-direction: column;
+}
+
+/* Overlay to reduce exposure */
+.hero::before {
+    content: "";
+    position: absolute;
+    top: 0; 
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: inherit;       /* use same background as parent */
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.3);   /* lower exposure */
+    z-index: 0;                /* behind content */
+}
+
+/* Make content appear above overlay */
+.hero * {
+    position: relative;
+    z-index: 1;
+}
+
+
+/* ── Yellow header bar ── */
+.yellow-header {
+    background: #FFCE1B;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 30px;
+    position: sticky;
+    top: 0;
+    margin-bottom: 10px;
+    z-index: 100;
+}
+
+.yellow-header .left-side h1 {
+    margin: 0;
+    font-size: 22px;
+    color: #222;
+    font-weight: 700;
+}
+
+.top-nav {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+}
+
+.top-nav a {
+    color: #222;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 15px;
+    transition: color 0.2s;
+}
+
+.top-nav a:hover,
+.top-nav a.active {
+    color: #30673F;
+}
+
+/* ── Dashboard body ── */
+.dashboard-body {
+    flex: 1;
+    padding: 32px 40px 60px;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* ── Welcome header ── */
+.dashboard-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 36px;
+    flex-wrap: wrap;
+}
+
+.CTA {
+    margin-left: 500px;
+}
+
+.welcome-msg {
+    font-size: 28px;
+    font-weight: 700;
+    color: #f1f1f1;
+    margin: 0;
+}
+
+.btn-start-order {
+    display: inline-block;
+    background: #30673F;
+    color: #fff;
+    padding: 14px 32px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.btn-start-order:hover {
+    background: #245230;
+}
+
+/* ── Orders sections ── */
+.orders-section {
+    margin-bottom: 40px;
+}
+
+.section-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #FFCE1B;
+    margin: 0 0 16px;
+}
+
+/* Horizontal scroll row of order cards */
+.orders-row {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding-bottom: 12px;
+    scroll-snap-type: x mandatory;
+}
+
+/* Hide scrollbar but keep function */
+.orders-row::-webkit-scrollbar {
+    height: 6px;
+}
+.orders-row::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+}
+
+/* ── Order card ── */
+.order-card {
+    flex: 0 0 220px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    scroll-snap-align: start;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.order-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+
+.order-card.past {
+    opacity: 0.75;
+}
+
+/* Badge (Collection / Delivery) */
+.order-badge {
+    display: inline-block;
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    align-self: flex-start;
+}
+
+.order-badge.collection {
+    background: #FFCE1B;
+    color: #222;
+}
+
+.order-badge.delivery {
+    background: #30673F;
+    color: #fff;
+}
+
+.order-items-count {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+
+.order-date {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+}
+
+/* Status colours */
+.order-status {
+    font-size: 13px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.status-pending   { color: #b58a00; }
+.status-confirmed { color: #30673F; }
+.status-completed { color: #555; }
+.status-cancelled { color: #c0392b; }
+
+/* Cancel button */
+.btn-cancel {
+    margin-top: 6px;
+    background: none;
+    border: 1px solid #c0392b;
+    color: #c0392b;
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.btn-cancel:hover {
+    background: #c0392b;
+    color: #fff;
+}
+
+/* Empty state */
+.empty-state {
+    background: #fff;
+    border-radius: 12px;
+    padding: 40px;
+    text-align: center;
+    color: #888;
+    font-size: 16px;
+}
+
+.btn-browse {
+    display: inline-block;
+    margin-top: 14px;
+    background: #716A4D;
+    color: #fff;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.btn-browse:hover {
+    background: #5a5540;
+}
+
+/* ── Flash messages (scoped) ── */
+.flash {
+    list-style: none;
+    padding-left: 0;
+    margin: 1rem 0;
+}
+
+.flash-container {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    max-width: min(360px, 92vw);
+    background: #FFCE1B;
+    color: #fff;
+    border-radius: 15px;
+    border: 1px solid #D9BB9B;
+    z-index: 9999;
+}
+
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .yellow-header {
+        flex-direction: column;
+        gap: 10px;
+        padding: 12px 16px;
+    }
+
+    .top-nav {
+        gap: 14px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .dashboard-body {
+        padding: 20px 16px 40px;
+    }
+
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .welcome-msg {
+        font-size: 22px;
+    }
+
+    .order-card {
+        flex: 0 0 180px;
+    }
+}
+
+@media (max-width: 480px) {
+    .top-nav a {
+        font-size: 13px;
+    }
+
+    .order-card {
+        flex: 0 0 160px;
+        padding: 14px;
+    }
+}

@@ -1,37 +1,172 @@
-.flash{
-    list-style:none;
-    padding-left:0;
-    margin:1rem 0;
-    animation: fadeIn 1.5s ease-in forwards;
-} /* flash list styling */
-
-.flash-container {
-    position: fixed;
-    top: 80px; right: 20px;
-    max-width: min(360px, 92vw); 
-    background: #94714b; color: #fff; border-radius: 15px; border: 1px solid #D9BB9B;
-    z-index: 9999;
-    animation: fadeIn 1.5s ease-in forwards;
-}
-
-.flash li{
-    padding:5px 5px;
-    margin:4px;
-    border-radius: 15px;
-} /* flash item card */
-
-.flash-message {
-    
-    border-radius: 6px;
+.green-header{
+    display: flex;
+    background: #337357;
     color: #fff;
-    font-size: 16px;
-    text-align: center;
+    width: 100%;
+    height: fit-content;
+    box-sizing: border-box;
+    padding: 10px;
+    position: fixed;       /* stays at the top */
+    top: 0;
+    left: 0;
+    z-index: 1000;         /* stays above hero image */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.flash .error{background:rgba(253, 3, 3, 0.486);
-    border:1px solid #d00
-} /* error flash */
+.left-side h1 {
+    margin: 0; /* remove default margin */
+    font-size: 1.5rem;
+}
 
-.flash .success{background:rgba(113, 240, 151, 0.603);
-    border:1px solid #0a0
-} /* success flash */
+.top-nav {
+    display: flex;
+    gap: 20px; /* space between nav links */
+    justify-content: flex-end;
+}
+
+.top-nav a {
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+.top-nav a.active,
+.top-nav a[aria-current="page"] {
+    color: #30673F ;
+}
+
+.top-nav a:hover {
+    color: #FFCE1B ;
+}
+
+input{
+    background-color: rgba(233, 233, 233, 0.986);
+}
+
+    ::placeholder,input{
+        color: black;
+    }
+
+    .hero  {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    background-image: url("../images/oakley-smith-8qnF7sE4BXs-unsplash.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 75px
+}
+
+    form, h1{
+        color: #ffff;
+        
+    }
+
+    .register-card{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    
+    }
+
+    form{
+    background: rgba(0, 0, 0, 0.651);
+    min-height: max-content;
+    padding:30px;
+    border-radius:8px;
+    box-shadow:0 0 5px rgb(0 0 0 / .1);
+    margin:1rem 0;
+    width: clamp(320px, 50vw, 520px); /* responsive width */
+    max-width: 92vw; 
+} /* form card */
+
+
+
+form input[type=text],
+form input[type=email],
+form input[type=password],
+form input[type=date]{
+    width:100%;
+    padding: 6.4px;
+    font-size:16px;
+    border:1px solid #ccc;
+    border-radius:15px;
+    box-sizing:border-box;
+    gap: 16px;
+    text-decoration-color: black;
+} /* form inputs */ 
+
+
+form input[type=submit]{
+    background: #30673F;
+    color:#fff;
+    border:none;
+    padding: 8px 16px;
+    font-size:16px;
+    border-radius:15px;
+    cursor:pointer;
+    margin: 10px;
+} /* submit button */
+
+form input[type=submit]:hover{
+    background:#30673F;
+} /* submit hover */
+
+    .form-row { 
+    display:flex; flex-direction:column; gap:.25rem; margin-bottom:20px;
+} /* form field layout */
+
+
+.form-actions{
+    display: flex;
+    flex-direction: column;   /* forces new lines */
+    align-items: center;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.form-actions input[type=submit]{
+    width: 250px;            /* same as your button style */
+    margin: 0;               /* stop it pushing sideways */
+}
+
+.blue-link{
+    display: block;          /* ensures it sits on its own line */
+    margin: 0;
+}
+
+
+    .error { 
+        color:#b00020; margin:0; font-size:.9rem;
+} /* form error messages */
+
+
+
+    .btn {
+            font-size: 18px;
+            font-weight: 600;
+            padding: 12px 36px;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            margin: 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            cursor: pointer;
+            }
+
+    .beige {width: 250px; background: #D9BB9B; color: #fff; border-radius: 15px; }
+
+    .blue-link{
+        color: #589669;
+    }

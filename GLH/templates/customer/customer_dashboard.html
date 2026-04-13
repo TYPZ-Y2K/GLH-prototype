@@ -2,7 +2,7 @@
 {%block title %} Greenfield Local Hub — customer dashboard {% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{{ url_for ('static', filename='customer/customer_dahsboard.css') }}">
+<link rel="stylesheet" href="{{ url_for ('static', filename='/css/customer/customer_dashboard.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -12,13 +12,21 @@
                 <h1>Greenfield Local Hub</h1>
             </div>
             <nav class="top-nav">
-                <a clas="active" href="{{ url_for('customer.customer_dashboard') }}">Dashboard</a>
-                <a href="{{ url_for('auth.logout') }}">Logout</a>
-                <a href="{{ url_for('public.privacy') }}">Privacy</a>
-                <a href="{{ url_for('customer.Farmers_Market') }}">Farmers Market</a>
+            <a href="{{ url_for('customer.customer_dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('customer.Farmers_Market') }}">Farmers Market</a>
+            <a href="{{ url_for('auth.profile') }}">Account</a>
+            <a href="{{ url_for('public.about_us') }}">About Us</a>
+            <a href="{{ url_for('auth.logout') }}">Logout</a>
             </nav>
         </div>
 
+        <div class="dashboard-body">
+            <!-- Welcome + CTA -->
+             <div class="dashboard-header">
+                <h2 class="welcome-msg">Welcome back, {{ current_user.full_name or 'Customer' }}</h2>
+                <a class="CTA" href="{{ url_for('customer.Farmers_Market') }}">start new order</a>
+             </div>
+        </div>
 
 
 
