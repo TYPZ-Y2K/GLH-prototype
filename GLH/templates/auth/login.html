@@ -2,7 +2,7 @@
 {% block title %} Greenfield Local Hub — Login {% endblock%}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{{ url_for ('static', filename='/auth/login.css') }}">
+<link rel="stylesheet" href="{{ url_for ('static', filename='auth/login.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -46,7 +46,7 @@
                     </label>
                 </div>
 
-                <div class="form-footer">
+                <div class="form-actions">
                     {{ form.submit(class="btn") }}
                     <a class="link" href="{{ url_for('auth.register') }}">Don't have an account?</a>
                 </div>

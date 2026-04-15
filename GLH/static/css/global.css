@@ -8,18 +8,34 @@ html, body{
     font-family: 'Inter', sans-serif;
 }
 
-@keyframes fadeIn {
-from {
+.silent-footer {
+    width: 100%;
+    text-align: center;
+    color: #ffffff;
+    font-size: 15px;
+    opacity: 0.85;
+    padding: 12px 0;
+}
+
+@keyframes fadeInOut {
+0% {
 opacity: 0; /* Start fully transparent */
 }
-to {
-opacity: 1; /* End fully visible */
-}}
+15% {
+opacity: 1;   /* fully visible at 15% point */
+}
+100% {
+    opacity: 0; /* fully transparent again */
+}
+}
 
 
 /* ── Flash (shared) ── */
-.flash { list-style: none; padding-left: 0; margin: 1rem 0; animation: fadeIn 1.5s ease-in forwards; }
-.flash-container { position: fixed; top: 80px; right: 20px; max-width: min(360px, 92vw); background: #FFCE1B; color: #fff; border-radius: 15px; border: 1px solid #D9BB9B; z-index: 9999; }
+.flash { list-style: none; padding-left: 0; margin: 1rem 0; animation: fadeInOut 30s ease-in-out forwards;}
+.flash-container { position: fixed; top: 80px; right: 20px; max-width: min(360px, 92vw);
+            background: #FFCE1B; color: #fff; border-radius: 15px;
+            border: 1px solid #D9BB9B; z-index: 9999; 
+                     animation: fadeInOut 30s ease-in-out forwards;}
 .flash li { padding: 5px; margin: 4px; border-radius: 15px; }
 .flash-message { border-radius: 6px; color: #fff; font-size: 16px; text-align: center; }
 .flash .error { background: rgba(253,3,3,0.49); border: 1px solid #d00; }

@@ -1,7 +1,12 @@
-.green-header{
+body{
+    margin: 0;
+    padding: 0;
+    background: #2a2a1e;
+}
+
+.yellow-header{
     display: flex;
-    background: #337357;
-    color: #fff;
+    background: #FFCE1B;
     width: 100%;
     height: fit-content;
     box-sizing: border-box;
@@ -15,32 +20,32 @@
     align-items: center;
 }
 
-.left-side h1 {
+.yellow-header .left-side h1 {
     margin: 0; /* remove default margin */
-    font-size: 1.5rem;
+    font-size: 22px;
+    color: #ffffff;
+    font-weight: 700;
 }
 
 .top-nav {
     display: flex;
     gap: 20px; /* space between nav links */
-    justify-content: flex-end;
+    align-items: center;
 }
 
 .top-nav a {
-    color: #fff;
+    color: #ffffff;
     font-weight: 600;
     text-decoration: none;
-    font-size: 20px;
+    font-size: 15px;
+    transition: color 0.2s;
 }
 
 .top-nav a.active,
-.top-nav a[aria-current="page"] {
+.top-nav a:hover{
     color: #30673F ;
 }
 
-.top-nav a:hover {
-    color: #FFCE1B ;
-}
 
 input{
     background-color: rgba(233, 233, 233, 0.986);
@@ -141,9 +146,8 @@ form input[type=submit]:hover{
     margin: 0;               /* stop it pushing sideways */
 }
 
-.blue-link{
-    display: block;          /* ensures it sits on its own line */
-    margin: 0;
+.link{
+    color: #ffffff;
 }
 
 

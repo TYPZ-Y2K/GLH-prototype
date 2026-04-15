@@ -1,0 +1,198 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #2a2a1e;
+}
+
+.yellow-header{
+    display: flex;
+    background: #FFCE1B;
+    width: 100%;
+    height: fit-content;
+    box-sizing: border-box;
+    padding: 10px;
+    position: fixed;       /* stays at the top */
+    top: 0;
+    left: 0;
+    z-index: 1000;         /* stays above hero image */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.left-side h1 {
+    margin: 0; /* remove default margin */
+    font-size: 1.5rem;
+}
+
+.top-nav {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+}
+
+.top-nav a {
+    color: hsl(0, 100%, 100%);
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 15px;
+    transition: color 0.2s;
+}
+
+
+.top-nav a.active,
+.top-nav a:hover{
+    color: #30673F ;
+}
+
+input{
+    background-color: rgba(233, 233, 233, 0.986);
+}
+
+    ::placeholder,input{
+        color: black;
+    }
+
+
+    .hero  {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    background-image: url("/static/images/oakley-smith-8qnF7sE4BXs-unsplash.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+    form, h1{
+        color: #ffff;
+        
+    }
+
+    .login-card{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    
+    }
+
+    form{
+    background: rgba(0, 0, 0, 0.651);
+    min-height: max-content;
+    min-width: max-content;
+    padding:30px;
+    border-radius:8px;
+    box-shadow:0 0 5px rgb(0 0 0 / .1);
+    margin:1rem 0;
+    width: 500px;
+    
+} /* form card */
+
+
+
+.form-footer .btn {
+    margin-bottom: 0.5rem;
+}
+
+form div{margin:.5rem 0
+} /* form field spacing */
+
+
+form input[type=text],
+form input[type=email],
+form input[type=password],
+form input[type=date]{
+    width:100%;
+    padding: .4rem;
+    font-size:16px;
+    border:1px solid #ccc;
+    border-radius:15px;
+    box-sizing:border-box;
+} /* form inputs */ 
+
+form, input{
+margin: 10px;
+}
+
+form input[type=submit]{
+    background: #30673F;
+    color:#fff;
+    border:none;
+    padding: 8px 16px;
+    font-size:16px;
+    border-radius:15px;
+    cursor:pointer;
+    margin: 10px;
+} /* submit button */
+
+form input[type=submit]:hover{
+    background:#4a9d60;
+} /* submit hover */
+
+.checkbox-row {
+    display: flex;
+    gap: 25px;
+    align-items: center;
+    margin-bottom: 10px;
+    justify-content: center;
+}
+
+.checkbox-row label {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+
+    .form-row { 
+    display:flex; flex-direction:column; gap:.25rem; margin-bottom:.75rem;
+} /* form field layout */
+
+
+.form-actions{
+    display: flex;
+    flex-direction: column;   /* forces new lines */
+    align-items: center;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.form-actions input[type=submit]{
+    width: 250px;            /* same as your button style */
+    margin: 0;               /* stop it pushing sideways */
+}
+
+.error { 
+        color:#b00020; margin:0; font-size:.9rem;
+} /* form error messages */
+
+.success {
+    color: #4BB543; margin:0; font-size:.9rem;
+} /* form success messages */
+
+    .btn {
+            font-size: 18px;
+            font-weight: 600;
+            padding: 12px 36px;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            margin: 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            cursor: pointer;
+            }
+
+    .beige {width: 250px; background: #94714b; color: #fff; border-radius: 15px; }
+
+    .link{
+    color: white;
+}
