@@ -7,13 +7,13 @@
 
 {% block content %}
 <div class="hero">
-    <div yellow-header>
+    <div class="green-header">
         <div class="left-side">
             <h1>Greenfield Local Hub</h1>
         </div>
         <nav class="top-nav">
             <a href="{{ url_for('customer.customer_dashboard') }}">Dashboard</a>
-            <a href="{{ url_for('customer.Farmers_Market') }}">Farmers Market</a>
+            <a href="{{ url_for('customer.Farmers_Market') }}" class="active">Farmers Market</a>
             <a href="{{ url_for('auth.profile') }}">Account</a>
             <a href="{{ url_for('public.about_us') }}">About Us</a>
             <a href="{{ url_for('auth.logout') }}">Logout</a>
@@ -36,7 +36,7 @@
 
          <!-- Product grid-->
           {% if products %}
-          <div class="product-grid">
+            <div class="product-grid">
                 {% for product in products %}
                 <div class="product-card">
                     <!-- Placeholder image using first letter -->
@@ -65,7 +65,7 @@
                     </div>
                 </div>
                 {% endfor %}
-          </div>
+            </div>
           {% else %}
           <div class="empty-state">
             <p>No products are available right now. Check back soon!</p>

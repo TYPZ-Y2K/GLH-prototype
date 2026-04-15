@@ -6,9 +6,9 @@
     flex-direction: column;
 }
 
-/* ── Yellow header bar (shared pattern) ── */
-.yellow-header {
-    background: #FFCE1B;
+/* ── Green header bar ── */
+.green-header {
+    background: #30673F;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -18,10 +18,10 @@
     z-index: 100;
 }
 
-.yellow-header .left-side h1 {
+.green-header .left-side h1 {
     margin: 0;
     font-size: 22px;
-    color: #222;
+    color: #ffffff;
     font-weight: 700;
 }
 
@@ -32,7 +32,7 @@
 }
 
 .top-nav a {
-    color: #222;
+    color: #ffffff;
     font-weight: 600;
     text-decoration: none;
     font-size: 15px;
@@ -41,7 +41,7 @@
 
 .top-nav a:hover,
 .top-nav a.active {
-    color: #30673F;
+    color: #FFCE1B;
 }
 
 /* ── Market body ── */
@@ -49,14 +49,14 @@
     flex: 1;
     padding: 32px 40px 60px;
     max-width: 1400px;
-    margin: 0 auto;
+    margin: auto;
     width: 100%;
 }
 
 .market-header {
     display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
+    align-items:flex-end;
+    justify-content:flex-start;
     margin-bottom: 32px;
     flex-wrap: wrap;
 }
