@@ -1,55 +1,70 @@
 {% extends "base.html" %}
-{%block title %} Greenfield Local Hub — customer dashboard {% endblock %}
+{% block title %}Greenfield Local Hub — Dashboard{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{{ url_for ('static', filename='/css/customer/customer_dashboard.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/customer/customer_dashboard.css') }}">
 {% endblock %}
 
 {% block content %}
 <div class="hero">
     <div class="green-header">
-            <div class="left-side">
+        <div class="left-side">
             <h1>Greenfield Local Hub</h1>
         </div>
         <nav class="top-nav">
-        <a href="{{ url_for('customer.customer_dashboard') }}">Dashboard</a>
-        <a href="{{ url_for('customer.Farmers_Market') }}">Farmers Market</a>
-        <a href="{{ url_for('auth.profile') }}">Account</a>
-        <a href="{{ url_for('public.about_us') }}">About Us</a>
-        <a href="{{ url_for('auth.logout') }}">Logout</a>
+            <a href="{{ url_for('customer.customer_dashboard') }}" class="active">Dashboard</a>
+            <a href="{{ url_for('customer.Farmers_Market') }}">Farmers Market</a>
+            <a href="{{ url_for('auth.profile') }}">Account</a>
+            <a href="{{ url_for('public.about_us') }}">About Us</a>
+            <a href="{{ url_for('auth.logout') }}">Logout</a>
         </nav>
     </div>
 
     <div class="dashboard-body">
         <!-- Welcome + CTA -->
-            <div class="dashboard-header">
+        <div class="dashboard-header">
             <h2 class="welcome-msg">Welcome back, {{ current_user.full_name or 'Customer' }}</h2>
-            <a class="btn-browse" href="{{ url_for('customer.Farmers_Market') }}">start new order</a>
-            </div>
+            <a href="{{ url_for('customer.Farmers_Market') }}" class="btn btn-start-order">Start new order</a>
+        </div>
 
-            <!--  ── Upcoming Orders ── -->
+        <!-- ── Upcoming Orders ── -->
         <section class="orders-section">
             <h3 class="section-title-u">Upcoming Orders</h3>
 
             {% if upcoming %}
             <div class="orders-row">
                 {% for order in upcoming %}
-                <div class="order-card"> 
-                    <span class="order-badge" {{ order.order_type.value }}>
-                        {{ order.order_type.value | capitalize }}    
+                <div class="order-card">
+
+                    {% if order.order_type.value == "delivery" %}
+                        <img
+                            src="{{ url_for('static', filename='images/martin-baron-gfunQ5nvh6Y-unsplash.jpg') }}"
+                            alt="Delivery van carrying produce"
+                            class="order-card-img"
+                        >
+                    {% elif order.order_type.value == "collection" %}
+                        <img
+                            src="{{ url_for('static', filename='images/sara-scarpa-AJFQGDaFP-s-unsplash.jpg') }}"
+                            alt="Basket of fresh produce for collection"
+                            class="order-card-img"
+                        >
+                    {% endif %}
+
+                    <span class="order-badge {{ order.order_type.value }}">
+                        {{ order.order_type.value | capitalize }}
                     </span>
-                    <p order-items-count>{{ order.items | length }} item{{ 's' if order.items | length != 1}}</p>
+                    <p class="order-items-count">{{ order.items | length }} item{{ 's' if order.items | length != 1 }}</p>
                     <p class="order-date">
                         {% if order.dc_date %}
-                            {{order.dc_date.strftime('%d/%m/%y') }}
+                            {{ order.dc_date.strftime('%d/%m/%Y') }}
                         {% else %}
-                            date pending
+                            Date pending
                         {% endif %}
                     </p>
-                    <p class="order-status status-{{order.status.value | lower }}">{{ order.status.value }}</p>
+                    <p class="order-status status-{{ order.status.value | lower }}">{{ order.status.value }}</p>
                     <form method="POST" action="{{ url_for('customer.cancel_order', order_id=order.order_id) }}">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                        <button type="submit" class="btn-cancel" onclick="return confirm('cancel this order?')">Cancel</button>
+                        <button type="submit" class="btn-cancel" onclick="return confirm('Cancel this order?')">Cancel</button>
                     </form>
                 </div>
                 {% endfor %}
@@ -57,28 +72,43 @@
             {% else %}
             <div class="empty-state">
                 <p>No upcoming orders yet.</p>
-                <a href="{{ url_for('customer.Farmers_Market') }}" class="btn btn-browse">Browse the farmers Market</a>
+                <a href="{{ url_for('customer.Farmers_Market') }}" class="btn btn-browse">Browse the Farmers Market</a>
             </div>
             {% endif %}
         </section>
 
-        <!--  ── Previous Orders ── -->
-        <section class="Orders-section">
-            <h3 class="section-title-p">Pervious orders</h3>
+        <!-- ── Previous Orders ── -->
+        <section class="orders-section">
+            <h3 class="section-title-p">Previous Orders</h3>
 
             {% if previous %}
             <div class="orders-row">
                 {% for order in previous %}
                 <div class="order-card past">
+
+                    {% if order.order_type.value == "delivery" %}
+                        <img
+                            src="{{ url_for('static', filename='images/martin-baron-gfunQ5nvh6Y-unsplash.jpg') }}"
+                            alt="Delivery van carrying produce"
+                            class="order-card-img"
+                        >
+                    {% elif order.order_type.value == "collection" %}
+                        <img
+                            src="{{ url_for('static', filename='images/sara-scarpa-AJFQGDaFP-s-unsplash.jpg') }}"
+                            alt="Basket of fresh produce for collection"
+                            class="order-card-img"
+                        >
+                    {% endif %}
+
                     <span class="order-badge {{ order.order_type.value }}">
                         {{ order.order_type.value | capitalize }}
                     </span>
-                    <p class="order-items-count">{{ order.items | length }} item{{ 's' if order.items | lemgth != 1 }}</p>
+                    <p class="order-items-count">{{ order.items | length }} item{{ 's' if order.items | length != 1 }}</p>
                     <p class="order-date">
                         {% if order.dc_date %}
-                            {{ order.dc_date.strftime('%d/%m?%Y') }}
+                            {{ order.dc_date.strftime('%d/%m/%Y') }}
                         {% else %}
-                            - 
+                            —
                         {% endif %}
                     </p>
                     <p class="order-status status-{{ order.status.value | lower }}">{{ order.status.value }}</p>
@@ -87,10 +117,10 @@
             </div>
             {% else %}
             <div class="empty-state">
-                <p>No previous orders to show</p>
+                <p>No previous orders to show.</p>
             </div>
             {% endif %}
         </section>
-    </div>    
+    </div>
 </div>
 {% endblock %}

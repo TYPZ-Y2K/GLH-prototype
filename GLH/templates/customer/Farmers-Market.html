@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title%}Greenfield Local Hub — Farmers Market{% endblock %}
+{% block title %}Greenfield Local Hub — Farmers Market{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/customer/Farmers-Market.css') }}">
@@ -21,56 +21,56 @@
     </div>
 
     <div class="market-body">
-        <!-- Header row-->
-         <div class="market-header">
+        <!-- Header row -->
+        <div class="market-header">
             <div>
                 <h2 class="market-title">Farmers Market</h2>
-                <p class="market-subtitle"> We have a wide range of products, some of which is seasonal and is not available</p>
+                <p class="market-subtitle">We have a wide range of products, some of which is seasonal and is not available year round.</p>
             </div>
             {% set basket = session.get('basket', {}) %}
             {% set basket_count = basket.values()|list|sum if basket else 0 %}
-            <a href="{{ url_for('customer.checkout') }}" class="btn-basket">  
+            <a href="{{ url_for('customer.checkout') }}" class="btn-basket">
                 Basket ({{ basket_count }})
             </a>
-         </div>
+        </div>
 
-         <!-- Product grid-->
-          {% if products %}
-            <div class="product-grid">
-                {% for product in products %}
-                <div class="product-card">
-                    <!-- Placeholder image using first letter -->
-                    <div class="product-image" aria-hidden=true> 
-                        <span class="product-initial">{{ product.name[0] | upper }}</span>
-                    </div>
-
-                    <div class="product-info">
-                        <h3 class="product-name">{{ product.name }}</h3>
-
-                        {% if product.description %}
-                        <p class="product-desc">{{ product.description | trunicate(60) }}</p>
-                        {% endif %}
-
-                        <p class="product-source">{{ product.producer.value | replace('_',' ') | title }}</p>
-                        
-                        <div class="product-bottom">
-                            <span class="product-price">£{{ "%.2f" | format(product.price) }}</span>
-                            <span class="product-stock">{{ product.stock }} in stock</span>
-                        </div>
-
-                        <form method="POST" action="{{ url_for('customer.add_to_basket', product_id=product.product_id) }}">
-                            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-                            <button type="submit" class="btn-add">Add to basket</button>
-                        </form>
-                    </div>
+        <!-- Product grid -->
+        {% if products %}
+        <div class="product-grid">
+            {% for product in products %}
+            <div class="product-card">
+                <!-- Placeholder image using first letter -->
+                <div class="product-img" aria-hidden="true">
+                    <span class="product-initial">{{ product.name[0] | upper }}</span>
                 </div>
-                {% endfor %}
+
+                <div class="product-info">
+                    <h3 class="product-name">{{ product.name }}</h3>
+
+                    {% if product.description %}
+                    <p class="product-desc">{{ product.description | truncate(60) }}</p>
+                    {% endif %}
+
+                    <p class="product-source">{{ product.producer.value | replace('_', ' ') | title }}</p>
+
+                    <div class="product-bottom">
+                        <span class="product-price">£{{ "%.2f" | format(product.price) }}</span>
+                        <span class="product-stock">{{ product.stock }} in stock</span>
+                    </div>
+
+                    <form method="POST" action="{{ url_for('customer.add_to_basket', product_id=product.product_id) }}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="btn-add">Add to basket</button>
+                    </form>
+                </div>
             </div>
-          {% else %}
-          <div class="empty-state">
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
             <p>No products are available right now. Check back soon!</p>
-          </div>
-          {% endif %}
+        </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

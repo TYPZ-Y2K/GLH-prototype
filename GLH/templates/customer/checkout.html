@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block title %}Greenfield Local Hub — Checkout{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/customer/checkout.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <div class="yellow-header">
+        <div class="left-side">
+            <h1>Greenfield Local Hub</h1>
+        </div>
+        <nav class="top-nav">
+            <a href="{{ url_for('customer.customer_dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('customer.Farmers_Market') }}">Farmers Market</a>
+            <a href="{{ url_for('auth.profile') }}">Account</a>
+            <a href="{{ url_for('auth.logout') }}">Logout</a>
+        </nav>
+    </div>
+
+    <div class="checkout-body">
+        <h2 class="checkout-title">Checkout</h2>
+
+        <div class="checkout-layout">
+            <!-- ── Left: Order summary ── -->
+            <section class="order-summary">
+                <h3 class="section-heading">Your Basket</h3>
+
+                {% for item in items %}
+                <div class="basket-item">
+                    <div class="basket-item-info">
+                        <p class="item-name">{{ item.product.name }}</p>
+                        <p class="item-meta">{{ item.product.producer.value | replace('_', ' ') | title }} &middot; Qty: {{ item.qty }}</p>
+                    </div>
+                    <div class="basket-item-right">
+                        <span class="item-subtotal">£{{ "%.2f" | format(item.subtotal) }}</span>
+                        <form method="POST" action="{{ url_for('customer.remove_from_basket', product_id=item.product.product_id) }}">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button type="submit" class="btn-remove" title="Remove item">&times;</button>
+                        </form>
+                    </div>
+                </div>
+                {% endfor %}
+
+                <div class="basket-total">
+                    <span>Total</span>
+                    <span class="total-amount">£{{ "%.2f" | format(total) }}</span>
+                </div>
+            </section>
+
+            <!-- ── Right: Payment & order type ── -->
+            <section class="payment-section">
+                
+                <form method="POST" action="{{ url_for('customer.place_order') }}" id="checkout-form" novalidate>
+                    {{ form.hidden_tag() }}
+
+                    <!-- Order type -->
+                    <h3 class="section-heading">Order Type</h3>
+                    <div class="order-type-group">
+                        {% for value, label in form.order_type.choices %}
+                        <label class="order-type-option">
+                            <input type="radio" name="order_type" value="{{ value }}" {{ 'checked' if form.order_type.data == value }}>
+                            <span class="radio-label">{{ label }}</span>
+                        </label>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Delivery address -->
+                    <div class="delivery-fields" id="delivery-fields" style="display:none;">
+                        {{ form.delivery_addr.label(class="field-label") }}
+                        {{ form.delivery_addr(class="field-input", placeholder="Enter your full delivery address") }}
+                    </div>
+
+
+                    <!-- Simulated payment -->
+                    <h3 class="section-heading payment-heading">Payment Details <span class="sim-badge">Simulated</span></h3>
+                    <p class="sim-note">This is a simulated payment for demonstration purposes. No real charges will be made.</p>
+
+                    <div class="payment-fields">
+                        <div class="field-group">
+                            <label for="card_number" class="field-label">Card Number</label>
+                            <input type="text" id="card_number" class="field-input" placeholder="1234 5678 9012 3456" maxlength="19" autocomplete="off">
+                        </div>
+
+                        <div class="field-row">
+                            <div class="field-group">
+                                <label for="expiry" class="field-label">Expiry Date</label>
+                                <input type="text" id="expiry" class="field-input" placeholder="MM/YY" maxlength="5" autocomplete="off">
+                            </div>
+                            <div class="field-group">
+                                <label for="cvc" class="field-label">CVC</label>
+                                <input type="text" id="cvc" class="field-input" placeholder="123" maxlength="4" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-pay" id="btn-pay">
+                        Pay £{{ "%.2f" | format(total) }}
+                    </button>
+
+                    <p class="back-link">
+                        <a href="{{ url_for('customer.Farmers_Market') }}">Continue shopping</a>
+                    </p>
+                </form>
+            </section>
+        </div>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='js/customer/checkout.js') }}"></script>
+
+{% endblock %}

@@ -47,7 +47,7 @@ from customer import customer_bp
 
 app.register_blueprint(auth_bp, url_prefix="/auth")
 app.register_blueprint(admin_bp, url_prefix="/admin")
-app.register_blueprint(public_bp, url_prefix="/public")
+app.register_blueprint(public_bp)
 app.register_blueprint(customer_bp, url_prefix="/customer")
 
 # debug: dump all routes at startup
@@ -64,10 +64,6 @@ print("Using database file:", os.path.abspath(
     app.config['SQLALCHEMY_DATABASE_URI'].replace("sqlite:///", "")
 ))
 
-@app.route("/")
-def home():
-    return render_template("public/home.html")
-
 
 # --- Error handlers ---
 
@@ -76,7 +72,7 @@ def home():
 def handle_csrf_error(e):
     flash(f"Form security check failed: {e.description}", "error")
     # Avoid redirect loops if referrer is same page
-    referrer = request.referrer or url_for("home")
+    referrer = request.referrer or url_for("public.home")
     return redirect(referrer), 400
 
 # Too many requests (rate limiting)

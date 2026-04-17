@@ -91,7 +91,10 @@ def register():
 @limiter.limit("10 per minute")  # rate limit to prevent abuse
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for("customer.customer_dashboard"))
+        if current_user == Role.Customer:
+            return redirect(url_for("customer.customer_dashboard"))
+        elif current_user == [Role.Admin, Role.Producer]:
+            return redirect(url_for("admin.admin_dashboard"))
 
     form = LoginForm()
     if form.validate_on_submit():
@@ -135,7 +138,7 @@ def profile():
             db.session.commit()
             logout_user()
             flash("Your account has been deleted.", "success")
-            return redirect(url_for("home"))
+            return redirect(url_for("public.home"))
         except Exception as err:
             db.session.rollback()
             print("Unexpected DB error during delete:", err)
@@ -205,6 +208,6 @@ def logout():
     logout_user()
     session.clear()
     flash("Logged out.", "success")
-    resp = make_response(redirect(url_for("home")))
+    resp = make_response(redirect(url_for("public.home")))
     resp.delete_cookie("remember_token")
     return resp
