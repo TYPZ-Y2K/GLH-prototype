@@ -1,0 +1,287 @@
+/* about-us.css */
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #1f1f1f;
+}
+
+.top-nav {
+    position: fixed;       /* stays in place even when scrolling */
+    top: 20px;             /* distance from top of screen */
+    right: 34px;           /* matches .about-page padding */
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    z-index: 1000;         /* ensures it stays above content */
+}
+
+
+.top-nav a {
+color: #ffffff;
+font-weight: 600;
+text-decoration: none;
+font-size: 20px;
+}
+
+.top-nav a:hover{
+color: #94714b;
+ transform: translateY(-2px)
+}
+
+/* indicate the current/active page */
+.top-nav a.active,
+.top-nav a[aria-current="page"] {
+color: #94714b;
+}
+
+
+.hero  {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    background-image: url("/static/images/greenforce-staffing-bYZn_C-RswQ-unsplash.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 0;
+    display: flex;
+    align-items: stretch;
+}
+
+.about-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.18);
+    z-index: 0;
+}
+
+
+.about-page {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1280px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 28px 34px 18px;
+    box-sizing: border-box;
+    margin: 0 auto; /* keeps it centered but doesn't affect nav */
+}
+
+.contact-us {
+font-size: 40px;
+color: #30673F;
+}
+
+.btn {
+    font-size: 18px;
+    font-weight: 600;
+    padding: 12px 36px;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    margin: 5px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+
+.about-title {
+    margin: 18px 0 34px 28px;
+    font-size: 72px;
+    line-height: 1;
+    color: #30673F;
+    font-weight: 700;
+}
+
+.about-grid {
+    position: relative;
+    flex: 1;
+    min-height: 700px;
+}
+
+/* Box container */
+
+.about-card {
+    position: absolute;
+    background: rgba(130, 122, 86, 0.92);
+    color: #ffffff;
+    border-radius: 12px;
+    padding: 22px 24px;
+    box-sizing: border-box;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+}
+
+.card-left {
+    top: 120px;
+    left: 36px;
+    width: 560px;
+}
+
+.card-right {
+    right: 36px;
+    top: 440px;
+    width: 620px;
+}
+
+
+.about-btn {
+    position: absolute;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    border-radius: 12px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    padding: 16px 28px;
+    box-sizing: border-box;
+    transition: transform 0.25s ease, opacity 0.2s ease;
+}
+
+.about-btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.95;
+}
+
+.btn-left {
+    left: 120px;
+    top: 425px;
+    width: 260px;
+    background: #589669;
+}
+
+.btn-right {
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 42px;
+    width: 280px;
+    background: #716A4D;
+}
+
+.btn-right:hover {
+    transform: translateX(-50%) translateY(-2px);
+}
+
+
+.text-ctrl {
+font-size: larger;
+font: bold;
+color: #ffffff;
+justify-content: center;
+}
+
+
+
+.about-footer {
+    display: flex;
+    justify-content: center;
+    padding-top: 16px;
+}
+
+.about-footer p {
+    margin: 0;
+    color: #ffffff;
+    font-size: 28px;
+    font-weight: 800;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+@media (max-width: 1100px) {
+    .about-title {
+        font-size: 58px;
+        margin-left: 12px;
+    }
+
+    .about-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+        min-height: auto;
+    }
+
+    .about-card,
+    .about-btn {
+        position: static;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .card-left,
+    .card-right {
+        width: 100%;
+    }
+
+    .about-card p {
+        font-size: 20px;
+    }
+
+    .btn-left,
+    .btn-right {
+        transform: none;
+    }
+
+    .btn-bottom:hover {
+        transform: translateY(-2px);
+    }
+
+    .about-footer {
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .about-page {
+        padding: 20px 16px 16px;
+    }
+
+    .top-nav {
+        gap: 14px;
+        flex-wrap: wrap;
+    }
+
+    .top-nav a {
+        font-size: 15px;
+    }
+
+    .about-title {
+        font-size: 44px;
+        margin: 12px 0 24px 0;
+    }
+
+    .about-card {
+        padding: 18px;
+    }
+
+    .about-card p {
+        font-size: 18px;
+        line-height: 1.35;
+    }
+
+    .about-btn {
+        font-size: 17px;
+        padding: 14px 20px;
+    }
+
+    .about-footer p {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 480px) {
+    .about-title {
+        font-size: 36px;
+    }
+
+    .about-card p {
+        font-size: 16px;
+    }
+
+    .about-btn {
+        font-size: 16px;
+    }
+}

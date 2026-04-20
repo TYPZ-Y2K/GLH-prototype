@@ -1,0 +1,156 @@
+/* ── our_products.css ── */
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #222;
+    font-family: Arial, sans-serif;
+}
+
+.products-page {
+    min-height: 100vh;
+    background: #e9e9e9;
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── Header ── */
+.products-header {
+    background: #f3c81d;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 20px;
+}
+
+.brand h1 {
+    margin: 0;
+    font-size: 20px;
+    color: #ffffff;
+    font-weight: 700;
+}
+
+.products-nav {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+}
+
+.products-nav a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    transition: color 0.2s ease;
+}
+
+.products-nav a:hover {
+    opacity: 0.8;
+    color: #30673F ;
+    transform: translateY(-2px)
+}
+
+
+/* ── Content ── */
+.products-content {
+    flex: 1;
+    padding: 34px 28px 60px;
+}
+
+.intro-text,
+.sub-text {
+    color: #111;
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0 0 28px 0;
+}
+
+.sub-text {
+    margin-bottom: 34px;
+}
+
+/* ── Grid ── */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 56px 42px;
+    justify-items: center;
+    align-items: start;
+}
+
+/* ── Product card ── */
+.product-card {
+    width: 160px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.product-card img {
+    width: 120px;
+    height: 95px;
+    object-fit: cover;
+    display: block;
+    border-radius: 2px 2px 0 0;
+}
+
+.product-label {
+    width: 120px;
+    background: #d0d0d0;
+    color: #111;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 7px 0;
+    border-radius: 0 0 2px 2px;
+}
+
+/* ── Footer ── */
+.products-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 26px 0 18px;
+}
+
+.products-footer p {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 800;
+    color: #111;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1000px) {
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 700px) {
+    .products-header {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+    }
+
+    .products-nav {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .products-content {
+        padding: 24px 18px 40px;
+    }
+
+    .products-grid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+    }
+
+    .products-footer p {
+        font-size: 22px;
+    }
+}

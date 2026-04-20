@@ -28,6 +28,7 @@ color: #ffffff;
 font-weight: 600;
 text-decoration: none;
 font-size: 20px;
+transition: color 0.2s;
 }
 
 .top-nav a:hover{
@@ -92,6 +93,7 @@ text-decoration: none;
 margin: 5px;
 box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 cursor: pointer;
+transition: background 0.2s;
 }
 
 .beige {width: 250px; background: #716A4D; color: #fff; }
@@ -99,6 +101,17 @@ cursor: pointer;
 .green { background: #30673F; color: #fff; }
 .white { background: #fff; color: #333;}
 
+.btn.beige:hover
+{ background: #3b3828;}
+
+.btn.black:hover
+{ background: #000000;}
+
+.btn.green:hover
+{ background: #294630;}
+
+.btn.white:hover
+{ background: #bebcbc;}
 
 .silent-footer {
 position: absolute;
