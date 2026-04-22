@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block title %}Greenfield Local Hub — Manage Products{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin/produce-control.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <div class="yellow-header">
+        <div class="left-side">
+            <h1>Greenfield Local Hub</h1>
+        </div>
+        <nav class="top-nav">
+            <a href="{{ url_for('admin.admin_dashboard') }}">Admin</a>
+            <a href="{{ url_for('admin.product_list') }}" class="active">Manage Products</a>
+            <a href="{{ url_for('admin.view_orders') }}">View Orders</a>
+            <a href="{{ url_for('auth.logout') }}">Logout</a>
+        </nav>
+    </div>
+
+    <div class="produce-body">
+        <h2 class="page-title">Manage Products</h2>
+
+        <div class="produce-layout">
+            <!-- ── Left: Add product form ── -->
+            <section class="add-product-card">
+                <h3 class="card-heading">Add New Product</h3>
+                <form method="POST" action="{{ url_for('admin.product_list') }}" novalidate>
+                    {{ form.hidden_tag() }}
+
+                    <div class="field-group">
+                        {{ form.name.label(class="field-label") }}
+                        {{ form.name(class="field-input", placeholder="e.g. Organic Eggs") }}
+                    </div>
+
+                    <div class="field-group">
+                        {{ form.description.label(class="field-label") }}
+                        {{ form.description(class="field-input field-textarea", placeholder="Brief description (optional)", rows=3) }}
+                    </div>
+
+                    <div class="field-row">
+                        <div class="field-group">
+                            {{ form.price.label(class="field-label") }}
+                            {{ form.price(class="field-input", placeholder="0.00", step="0.01") }}
+                        </div>
+                        <div class="field-group">
+                            {{ form.stock.label(class="field-label") }}
+                            {{ form.stock(class="field-input", placeholder="0") }}
+                        </div>
+                    </div>
+
+                    <div class="field-group">
+                        {{ form.producer.label(class="field-label") }}
+                        {{ form.producer(class="field-input") }}
+                    </div>
+
+                    {{ form.submit(class="btn-save") }}
+                </form>
+            </section>
+
+            <!-- ── Right: Product list ── -->
+            <section class="product-list-section">
+                <h3 class="card-heading">Current Products ({{ products | length }})</h3>
+
+                {% if products %}
+                <div class="product-list">
+                    {% for product in products %}
+                    <div class="product-row">
+                        <div class="product-row-info">
+                            <p class="row-name">{{ product.name }}</p>
+                            <p class="row-meta">{{ product.producer.value | replace('_', ' ') | title }} &middot; £{{ "%.2f" | format(product.price) }}</p>
+                        </div>
+
+                        <!-- Quick stock update -->
+                        <form method="POST" action="{{ url_for('admin.update_stock', product_id=product.product_id) }}" class="stock-form">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <label class="stock-label" for="stock-{{ product.product_id }}">Stock:</label>
+                            <input type="number" name="stock" id="stock-{{ product.product_id }}" value="{{ product.stock }}" min="0" class="stock-input">
+                            <button type="submit" class="btn-stock" title="Update stock">&#10003;</button>
+                        </form>
+
+                        <div class="row-actions">
+                            <a href="{{ url_for('admin.edit_product', product_id=product.product_id) }}" class="btn-edit" title="Edit product">Edit</a>
+
+                            <!-- Delete with password -->
+                            <form method="POST" action="{{ url_for('admin.delete_product', product_id=product.product_id) }}" class="delete-form" onsubmit="return promptDelete(this)">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <input type="hidden" name="password" class="delete-pw">
+                                <button type="submit" class="btn-delete" title="Delete product">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="empty-state">
+                    <p>No products yet. Add one using the form.</p>
+                </div>
+                {% endif %}
+            </section>
+        </div>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='js/admin/produce_control.js') }}"></script>
+
+{% endblock %}
