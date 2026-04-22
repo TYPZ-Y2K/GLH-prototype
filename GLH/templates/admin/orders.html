@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+{% block title %}Greenfield Local Hub — Orders{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin/admin_dashboard.css') }}">
+<style>
+    /* ── Orders-page-specific styles ── */
+    .filter-bar {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+    }
+
+    .filter-link {
+        padding: 8px 20px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        color: #555;
+        background: #fff;
+        border: 2px solid #ddd;
+        transition: all 0.2s;
+    }
+
+    .filter-link:hover {
+        border-color: #30673F;
+        color: #30673F;
+    }
+
+    .filter-link.active {
+        background: #30673F;
+        color: #fff;
+        border-color: #30673F;
+    }
+
+    .order-detail-row td {
+        padding-top: 0;
+        padding-bottom: 18px;
+    }
+
+    .order-items-list {
+        margin: 0;
+        padding: 0 0 0 18px;
+        font-size: 13px;
+        color: #666;
+        line-height: 1.8;
+    }
+
+    .status-select {
+        padding: 5px 10px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 13px;
+        font-family: inherit;
+        cursor: pointer;
+    }
+
+    .status-select:focus {
+        outline: none;
+        border-color: #30673F;
+    }
+
+    .btn-status {
+        background: #30673F;
+        color: #fff;
+        border: none;
+        padding: 5px 14px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .btn-status:hover {
+        background: #245230;
+    }
+
+    .status-form {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .order-address {
+        font-size: 12px;
+        color: #999;
+        margin: 2px 0 0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <div class="yellow-header">
+        <div class="left-side">
+            <h1>Greenfield Local Hub</h1>
+        </div>
+        <nav class="top-nav">
+            <a href="{{ url_for('admin.admin_dashboard') }}">Admin</a>
+            <a href="{{ url_for('admin.product_list') }}">Manage Products</a>
+            <a href="{{ url_for('admin.view_orders') }}" class="active">View Orders</a>
+            <a href="{{ url_for('auth.logout') }}">Logout</a>
+        </nav>
+    </div>
+
+    <div class="admin-body">
+        <h2 class="admin-welcome">Orders</h2>
+
+        <!-- ── Filter tabs ── -->
+        <div class="filter-bar">
+            <a href="{{ url_for('admin.view_orders', filter='all') }}"
+            class="filter-link {{ 'active' if filter_type == 'all' }}">All</a>
+            <a href="{{ url_for('admin.view_orders', filter='upcoming') }}"
+            class="filter-link {{ 'active' if filter_type == 'upcoming' }}">Upcoming</a>
+            <a href="{{ url_for('admin.view_orders', filter='past') }}"
+            class="filter-link {{ 'active' if filter_type == 'past' }}">Past</a>
+        </div>
+
+        <!-- ── Orders table ── -->
+        {% if orders %}
+        <div class="orders-table-wrap">
+            <table class="orders-table">
+                <thead>
+                    <tr>
+                        <th>Order #</th>
+                        <th>Customer</th>
+                        <th>Type</th>
+                        <th>Items</th>
+                        <th>Date</th>
+                        <th>Collection / Delivery</th>
+                        <th>Status</th>
+                        <th>Update</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td>{{ order.order_id }}</td>
+                        <td>
+                            {{ order.user.full_name or order.user.email }}
+                            {% if order.order_type.value == 'delivery' and order.delivery_addr %}
+                            <p class="order-address">{{ order.delivery_addr }}</p>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span class="badge {{ order.order_type.value }}">
+                                {{ order.order_type.value | capitalize }}
+                            </span>
+                        </td>
+                        <td>
+                            {{ order.items | length }}
+                            <ul class="order-items-list">
+                                {% for item in order.items %}
+                                <li>{{ item.product.name }} &times; {{ item.quantity }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td>{{ order.order_date.strftime('%d/%m/%Y') if order.order_date else '—' }}</td>
+                        <td>{{ order.dc_date.strftime('%d/%m/%Y') if order.dc_date else '—' }}</td>
+                        <td>
+                            <span class="status status-{{ order.status.value | lower }}">
+                                {{ order.status.value }}
+                            </span>
+                        </td>
+                        <td>
+                            <form method="POST"
+                                action="{{ url_for('admin.update_order_status', order_id=order.order_id) }}"
+                                class="status-form">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <select name="status" class="status-select">
+                                    {% for s in ['Pending', 'Confirmed', 'Completed', 'Cancelled'] %}
+                                    <option value="{{ s }}" {{ 'selected' if order.status.value == s }}>{{ s }}</option>
+                                    {% endfor %}
+                                </select>
+                                <button type="submit" class="btn-status">Save</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <p>No {{ filter_type }} orders to show.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
