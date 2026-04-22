@@ -78,7 +78,7 @@ def handle_csrf_error(e):
 # Too many requests (rate limiting)
 @app.errorhandler(429)
 def ratelimit_handler(e):
-    return render_template("public/429.html", error=e), 429
+    return render_template("public/error-429.html", error=e), 429
 
 # Handle all HTTP errors (404, 405, etc.) with a generic page
 @app.errorhandler(HTTPException)
@@ -89,4 +89,4 @@ def handle_http_exception(e):
 
 #--- Run the app ---
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(debug=True)

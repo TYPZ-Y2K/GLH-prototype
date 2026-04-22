@@ -131,6 +131,7 @@
                         <th>Items</th>
                         <th>Date</th>
                         <th>Collection / Delivery</th>
+                        <th>Delivery Address</th>
                         <th>Status</th>
                         <th>Update</th>
                     </tr>
@@ -160,6 +161,7 @@
                         </td>
                         <td>{{ order.order_date.strftime('%d/%m/%Y') if order.order_date else '—' }}</td>
                         <td>{{ order.dc_date.strftime('%d/%m/%Y') if order.dc_date else '—' }}</td>
+                        <td>{{ order.delivery_addr}}</td>
                         <td>
                             <span class="status status-{{ order.status.value | lower }}">
                                 {{ order.status.value }}

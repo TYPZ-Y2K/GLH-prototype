@@ -17,7 +17,11 @@ from . import auth_bp as bp  #  Blueprint created in auth/__init__.py;  its name
 @limiter.limit("5 per minute")  # rate limit to prevent abuse
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for("customer.customer_dashboard"))
+        if current_user == Role.Customer:
+            return redirect(url_for("customer.customer_dashboard"))
+        elif current_user.is_authenticated:
+            if current_user == [Role.Producer, Role.Admin]:
+                return redirect(url_for("admin.admin_dashboard"))
 
     form = RegisterForm()
     if form.validate_on_submit():
@@ -91,10 +95,11 @@ def register():
 @limiter.limit("10 per minute")  # rate limit to prevent abuse
 def login():
     if current_user.is_authenticated:
-        if current_user == Role.Customer:
+        if current_user.role == Role.Customer:
             return redirect(url_for("customer.customer_dashboard"))
-        elif current_user == [Role.Admin, Role.Producer]:
-            return redirect(url_for("admin.admin_dashboard"))
+        elif current_user.is_authenticated:
+            if current_user.role in [Role.Producer, Role.Admin]:
+                return redirect(url_for("admin.admin_dashboard"))
 
     form = LoginForm()
     if form.validate_on_submit():
@@ -111,8 +116,10 @@ def login():
         # Prefer timezone-aware now
         user.last_login = datetime.now(timezone.utc)
         db.session.commit()
-        
-        return redirect(url_for("customer.customer_dashboard"))
+        if user.role == Role.Customer:
+            return redirect(url_for("customer.customer_dashboard"))
+        elif user.role == [Role.Producer, Role.Admin]:
+            return redirect(url_for("admin.admin_dashboard"))
 
     return render_template("auth/login.html", form=form)
 

@@ -26,6 +26,7 @@ def customer_dashboard():
         .filter_by(user_id=current_user.user_id)
         .filter(Orders.status.in_({Status.Completed, Status.Cancelled}))
         .order_by(Orders.order_date.asc())
+        .all()
     )
 
     return render_template(

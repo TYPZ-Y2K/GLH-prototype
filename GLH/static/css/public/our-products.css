@@ -107,19 +107,8 @@ body {
     border-radius: 0 0 2px 2px;
 }
 
-/* ── Footer ── */
-.products-footer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 26px 0 18px;
-}
-
-.products-footer p {
-    margin: 0;
-    font-size: 28px;
-    font-weight: 800;
-    color: #111;
+.silent-footer {
+    background: #f3c81d;
 }
 
 /* ── Responsive ── */
