@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block title %}Greenfield Local Hub — Admin Dashboard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin/admin_dashboard.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <div class="yellow-header">
+        <div class="left-side">
+            <h1>Greenfield Local Hub</h1>
+        </div>
+        <nav class="top-nav">
+            <a href="{{ url_for('admin.admin_dashboard') }}" class="active">Admin</a>
+            <a href="{{ url_for('admin.product_list') }}">Manage Products</a>
+            <a href="{{ url_for('admin.view_orders') }}">View Orders</a>
+            <a href="{{ url_for('auth.profile') }}">Account</a>
+            <a href="{{ url_for('auth.logout') }}">Logout</a>
+        </nav>
+    </div>
+
+    <div class="admin-body">
+        <h2 class="admin-welcome">Admin Dashboard</h2>
+
+        <!-- ── Stat cards ── -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <span class="stat-number">{{ total_products }}</span>
+                <span class="stat-label">Total Products</span>
+            </div>
+            <div class="stat-card warn">
+                <span class="stat-number">{{ low_stock }}</span>
+                <span class="stat-label">Low Stock (&lt;5)</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">{{ pending_orders }}</span>
+                <span class="stat-label">Pending Orders</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">{{ confirmed_orders }}</span>
+                <span class="stat-label">Confirmed Orders</span>
+            </div>
+        </div>
+
+        <!-- ── Quick actions ── -->
+        <div class="quick-actions">
+            <a href="{{ url_for('admin.product_list') }}" class="action-card">
+                <span class="action-icon">+</span>
+                <span class="action-text">Manage Products</span>
+            </a>
+            <a href="{{ url_for('admin.view_orders') }}" class="action-card">
+                <span class="action-icon">&#9776;</span>
+                <span class="action-text">View All Orders</span>
+            </a>
+            <a href="{{ url_for('admin.view_orders', filter='upcoming') }}" class="action-card">
+                <span class="action-icon">&uarr;</span>
+                <span class="action-text">Upcoming Orders</span>
+            </a>
+        </div>
+
+        <!-- ── Recent orders ── -->
+        <section class="recent-section">
+            <h3 class="section-title">Recent Orders</h3>
+            {% if recent_orders %}
+            <div class="orders-table-wrap">
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>Order #</th>
+                            <th>Customer</th>
+                            <th>Type</th>
+                            <th>Items</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in recent_orders %}
+                        <tr>
+                            <td>{{ order.order_id }}</td>
+                            <td>{{ order.user.full_name or order.user.email }}</td>
+                            <td><span class="badge {{ order.order_type.value }}">{{ order.order_type.value | capitalize }}</span></td>
+                            <td>{{ order.items | length }}</td>
+                            <td><span class="status status-{{ order.status.value | lower }}">{{ order.status.value }}</span></td>
+                            <td>{{ order.order_date.strftime('%d/%m/%Y') if order.order_date else '—' }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <p>No orders yet.</p>
+            </div>
+            {% endif %}
+        </section>
+    </div>
+</div>
+{% endblock %}
