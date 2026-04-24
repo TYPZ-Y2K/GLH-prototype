@@ -53,7 +53,13 @@
                     <span class="order-badge {{ order.order_type.value }}">
                         {{ order.order_type.value | capitalize }}
                     </span>
-                    <p class="order-items-count">{{ order.items | length }} item{{ 's' if order.items | length != 1 }}</p>
+                    <p>
+                        {{ order.items | length }} items:
+                        <ul class="order-items-list">
+                            {% for item in order.items %}
+                            <li>{{ item.product.name }} &times; {{ item.quantity }}</li>
+                            {% endfor %}
+                    </p>
                     <p class="order-date">
                         {% if order.dc_date %}
                             {{ order.dc_date.strftime('%d/%m/%Y') }}

@@ -129,6 +129,7 @@
                         <th>Customer</th>
                         <th>Type</th>
                         <th>Items</th>
+                        <th>Price</th>
                         <th>Date</th>
                         <th>Collection / Delivery</th>
                         <th>Status</th>
@@ -158,6 +159,7 @@
                                 {% endfor %}
                             </ul>
                         </td>
+                        <td>£{{ order.order_total }}</td>
                         <td>{{ order.order_date.strftime('%d/%m/%Y') if order.order_date else '—' }}</td>
                         <td>{{ order.dc_date.strftime('%d/%m/%Y') if order.dc_date else '—' }}</td>
                         <td>

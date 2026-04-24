@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   cancelBtn.addEventListener("click", (event) => {
     // Show confirmation dialog
+    event.preventDefault();
+    
     const userConfirmed = confirm("Are you sure you want to cancel this order?");
 
     if (userConfirmed) {
