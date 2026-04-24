@@ -51,8 +51,10 @@ class User(db.Model, UserMixin):
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
+    """ verify if the provided password matches the stored hash. Returns true if correct. False otherwise"""
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+    
 
 class Product(db.Model):
     __tablename__ = "products"
@@ -72,6 +74,7 @@ class Orders(db.Model):
     user_id        = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False)
     order_type     = db.Column(SAEnum(OrderType), nullable=False)
     status         = db.Column(SAEnum(Status), default=Status.Pending, nullable=False)
+    order_total       = db.Column(Numeric(10, 2), nullable=False)
     order_date     = db.Column(db.DateTime, default=UTC_NOW)
     dc_date  = db.Column(db.DateTime)
     delivery_addr  = db.Column(db.String(255))

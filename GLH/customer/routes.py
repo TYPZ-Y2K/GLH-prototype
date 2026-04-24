@@ -41,6 +41,27 @@ def Farmers_Market():
     products = Product.query.filter(Product.stock > 0).all()
     return render_template("customer/Farmers-Market.html", products=products)
 
+def calculate_basket_totals():
+    basket = session.get("basket", {})
+    items = []
+    total = 0.0
+
+    for pid_str, qty in basket.items():
+        try:
+            product_id = int(pid_str)
+            qty = int(qty)
+        except ValueError:
+            continue  # Skip invalid entries
+
+        product = db.session.get(Product, product_id)
+        if product:
+            subtotal = float(product.price) * qty
+            total += subtotal
+            items.append({"product": product, "qty": qty, "subtotal": subtotal})
+
+    return items, total
+
+
 @bp.route("/checkout")
 @login_required
 def checkout():
@@ -49,16 +70,9 @@ def checkout():
     if not basket:
         flash("your basket is empty.", "error")
         return redirect(url_for("customer.Farmers_Market"))  # Redirect back to basket page
+    # get both items and total from the helper
+    items, total = calculate_basket_totals()
 
-    items = []
-    total = 0
-    for pid_str, qty in basket.items():
-        product = db.session.get(Product, int(pid_str))
-        if product:
-            subtotal = float(product.price) * qty
-            total += subtotal
-            items.append({"product": product, "qty": qty, "subtotal": subtotal})
-    
     form = CheckoutForm()
     return render_template("customer/checkout.html", items=items, total=total, form=form)
 
@@ -89,6 +103,7 @@ def remove_from_basket(product_id):
         session["basket"] = basket
         flash("Item remove.", "success")
         return redirect(url_for("customer.checkout"))
+    
 # ── Place order (simulated payment) ──
 @bp.route("/place-order", methods=["POST"])
 @login_required
@@ -97,6 +112,8 @@ def place_order():
     if not basket:
         flash("Your basket is empty.", "error")
         return redirect(url_for("customer.Farmers_Market"))
+    
+    items, total = calculate_basket_totals()
 
     order_type_str = request.form.get("order_type", "collection")
     delivery_addr = request.form.get("delivery_addr", "").strip()
@@ -114,6 +131,7 @@ def place_order():
         status=Status.Pending,
         dc_date=dc_date,
         delivery_addr=delivery_addr if otype == OrderType.Delivery else None,
+        order_total=total
     )
     db.session.add(order)
     db.session.flush()

@@ -116,9 +116,10 @@ def login():
         # Prefer timezone-aware now
         user.last_login = datetime.now(timezone.utc)
         db.session.commit()
+
         if user.role == Role.Customer:
             return redirect(url_for("customer.customer_dashboard"))
-        elif user.role == [Role.Producer, Role.Admin]:
+        elif user.role in [Role.Producer, Role.Admin]:
             return redirect(url_for("admin.admin_dashboard"))
 
     return render_template("auth/login.html", form=form)
