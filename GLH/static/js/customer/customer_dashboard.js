@@ -1,21 +1,19 @@
 // customer/customer_dashboard.js
-document.addEventListener("DOMContentLoaded", () => {
-  const cancelBtn = document.getElementById("myBtn");
+document.addEventListener("DOMContentLoaded", function () {
+    // Event delegation — one listener on the document catches ALL cancel buttons
+    document.addEventListener("click", function (event) {
+        // Only act on buttons with the cancel class
+        if (!event.target.classList.contains("btn-cancel")) return;
 
-  cancelBtn.addEventListener("click", (event) => {
-    // Show confirmation dialog
-    event.preventDefault();
-    
-    const userConfirmed = confirm("Are you sure you want to cancel this order?");
+        event.preventDefault();
 
-    if (userConfirmed) {
-      // YES option
-      alert("Order has been canceled.");
-      // You can also call your cancel API or redirect here
-    } else {
-      // NO option
-      alert("Order was NOT canceled.");
-    }
-  });
+        var confirmed = confirm("Are you sure you want to cancel this order?");
+
+        if (confirmed) {
+            // Submit the parent form
+            event.target.closest("form").submit();
+        }
+    });
 });
+
 

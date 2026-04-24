@@ -1,3 +1,4 @@
+//auth/register.js
 document.addEventListener('DOMContentLoaded', () => {
 const form = document.getElementById('register-form');
 const passwordInput = document.getElementById('password');

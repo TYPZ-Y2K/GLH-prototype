@@ -43,18 +43,20 @@
 
                 <div class="form-row">
                     {{ form.dob.label}}
-                    {{ form.dob(id="dob", autocomplete="dob") }}
+                    {{ form.dob(id="dob", autocomplete="bday") }}
                     {% for err in form.dob.errors %}<p class="error">{{ err }}</p> {% endfor %} 
                 </div>
                 
                 <div class="form-row">
                     {{ form.password(id="password", autocomplete="password") }}
                     {% for err in form.dob.errors %}<p class="error">{{ err }}</p> {% endfor %} 
+                    <div id="passwordMessage" class="password-hint"></div>
                 </div>
                 
                 <div class="form-row">
                     {{ form.confirm(id="confirm_password", autocomplete="new-password") }}
                     {% for err in form.dob.errors %}<p class="error">{{ err }}</p> {% endfor %} 
+                    <div id="error-container" class="error" style="display:none;"></div>
                 </div>
 
                 <div class="form-row">
@@ -67,10 +69,8 @@
                     <a class="link" href="{{ url_for('auth.login') }}">Have an account already?</a>
                 </div>
                 
-                <script src="{{ url_for('static', filename='js/auth/register.js') }}" defer></script>
             </form>
-
-           
-        </div>
+        </div>                
+        <script src="{{ url_for('static', filename='js/auth/register.js') }}" defer></script>
     </div>
 {% endblock %}

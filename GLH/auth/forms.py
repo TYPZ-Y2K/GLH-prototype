@@ -53,7 +53,7 @@ class RegisterForm(FlaskForm):
         render_kw={"placeholder": "Full name"},
         validators=[
             DataRequired(),
-            Length(min=2, max=120),
+            Length(min=2, max=120, message="name length must be netween 2-120 characters."),
             Regexp(NAME_PATTERN, message="Use letters, spaces, hyphens or apostrophes."),
         ],
     )
